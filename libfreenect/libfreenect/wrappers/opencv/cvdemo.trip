@@ -100,7 +100,6 @@ int main(int argc, char **argv)
   int angle = 0;
   double duration = 5;
   IplImage *image = 0;
-  IplImage *image2 = 0;
   IplImage *prev = 0;
   IplImage *output = 0;
   IplImage *depth;
@@ -114,9 +113,9 @@ int main(int argc, char **argv)
   bw = cvCreateImage(cvSize(640,480),8,1);
   edge = cvCreateImage(cvSize(640,480),8,1);
   edge2 = cvCreateImage(cvSize(640,480),8,1);
-  output  = cvCreateImage(cvSize(640,480),8,3);
+  output  = cvCreateImage(cvSize(640,480),IPL_DEPTH_32F,3);
   cvZero( output );
-  
+
   //cvCvtColor(output, output, CV_RGB2BGR);
   while (1) {
     switch(cvWaitKey(10)){
@@ -158,42 +157,32 @@ int main(int argc, char **argv)
 	//first = 0;
       }
       else
-	{
-	  prev = cvCloneImage(image2);
-	  cvReleaseImage(&image2); 
-	}
+	prev = cvCloneImage(image);
       image  = freenect_sync_get_rgb_cv(0);
-      image2  = cvCloneImage(image);
       if (!image) {
 	printf("Error: Kinect not connected?\n");
 	return -1;
       }
       cvCvtColor(image, image, CV_RGB2BGR);
-      //      cvCvtColor(image2, image2, CV_RGB2BGR);
 
       cvAbsDiff(image,prev,diff);
       cvCvtColor(diff, bw,CV_BGR2GRAY);
-      cvCanny(bw, edge, 29000,30500,7);
+      cvCanny(bw, edge, 33000,33000,7);
       //      cvThreshold(bw,bw,100,254,CV_THRESH_BINARY);
       cvNot(edge,edge2);
 
       if(!first)
-	{
-	  cvSubS(output,cvScalar(255,255,255,255),output,0);
-	  cvAnd(GlViewColor(depth),GlViewColor(depth),output,edge);
-	  //cvRunningAvg(GlViewColor(depth),output,1,edge);
-	}
-      //cvRunningAvg(image,output,1,edge);
-
+	cvRunningAvg(GlViewColor(depth),output,1,edge);
+      cvRunningAvg(image,output,1,edge);
+      cvSubS(output,cvScalar(18,18,18,18),output,0);
       if(!first)
 	{
-	  cvReleaseImage(&prev);
+	  cvReleaseImage(&prev); 
 	}
       else
 	first = 0;
-      cvAddWeighted(image, .3, output, .7, 1, image);
       
-      //       OverlayImage(image2, output, cvPoint(0, 0), cvScalar(0.8,0.8,0.8,0.8), cvScalar(0.2,0.2,0.2,0.2));
+      OverlayImage(image, output, cvPoint(0, 0), cvScalar(0.8,0.8,0.8,0.8), cvScalar(0.2,0.2,0.2,0.2));
       /*
       CvPoint* points[1];
       CvPoint ptt[5];
@@ -216,7 +205,7 @@ int main(int argc, char **argv)
 	return -1;
       }
       cvShowImage("RGB", image);
-      cvShowImage("Output", edge2);
+      cvShowImage("Output", output);
 
       cvShowImage("Depth", GlViewColor(depth));
       break;

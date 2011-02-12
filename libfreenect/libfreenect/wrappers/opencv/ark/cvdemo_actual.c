@@ -216,7 +216,7 @@ int main(int argc, char **argv)
 	return -1;
       }
       cvShowImage("RGB", image);
-      cvShowImage("Output", edge2);
+      cvShowImage("Output", output);
 
       cvShowImage("Depth", GlViewColor(depth));
       break;
