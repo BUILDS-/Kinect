@@ -55,8 +55,42 @@ IplImage *GlViewColor(IplImage *depth)
 
 int main(int argc, char **argv)
 {
-	while (cvWaitKey(10) !=  113) {
-	  	IplImage *image = freenect_sync_get_rgb_cv(0);
+  int angle = 0;
+	while (1) {
+	  switch(cvWaitKey(10)){
+	    
+	  case 113:
+	    exit(0);
+	  case 'w':
+	    angle++;
+	    if(angle > 30)
+	      angle = 30;
+	    set_tilt_cv(angle,0);
+	    break;
+	  case 'x':
+	    angle--;
+	    if(angle < -30)
+	      angle = -30;
+	    set_tilt_cv(angle,0);
+	    break;
+	  case 's':
+	    angle = 0;
+	    set_tilt_cv(angle,0);
+	    break;
+	  case 'e':
+	    angle += 10;
+	    if(angle > 30)
+	      angle = 30;
+	    set_tilt_cv(angle,0);
+	    break;
+	  case 'c':
+	    angle -=10;
+	    if(angle < -30)
+	      angle = -30;
+	    set_tilt_cv(angle,0);
+	    break;
+	  default:
+	    ;IplImage *image = freenect_sync_get_rgb_cv(0);
 		if (!image) {
 		    printf("Error: Kinect not connected?\n");
 		    return -1;
@@ -71,5 +105,7 @@ int main(int argc, char **argv)
 		cvShowImage("RGB", image);
 		
 		cvShowImage("Depth", GlViewColor(depth));
+		break;
+	  }
 	}
 }
