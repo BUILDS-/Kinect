@@ -1,4 +1,0 @@
-0000000000000000000000000000000000000000 2ea3ebb4b2be5d0472a8ba59b99a0ef4b4e1e247 Kyle Brogle <broglek@bu.edu> 1297475837 -0500	clone: from https://github.com/OpenKinect/libfreenect.git
-2ea3ebb4b2be5d0472a8ba59b99a0ef4b4e1e247 2dc6c70cd7058b4c8f2602ff0b4c658415dc8fd0 Kyle Brogle <broglek@bu.edu> 1297488822 -0500	commit: Compiles opencv stuff now
-2dc6c70cd7058b4c8f2602ff0b4c658415dc8fd0 4762300059431fc072119dd1ea2fae535fc8a86d Kyle Brogle <broglek@bu.edu> 1297488946 -0500	pull : Merge made by recursive.
-4762300059431fc072119dd1ea2fae535fc8a86d 533265992188cde6fae7df1fe4f9cff4170f40a2 Kyle Brogle <broglek@bu.edu> 1297492803 -0500	commit: Here is camera movement
