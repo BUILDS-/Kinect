@@ -9,6 +9,7 @@ extern "C" {
 
 	IplImage *freenect_sync_get_depth_cv(int index);
 	IplImage *freenect_sync_get_rgb_cv(int index);
+        int set_tilt_cv(int angle, int index);
 
 #ifdef __cplusplus
 }
