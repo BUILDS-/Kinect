@@ -1,0 +1,21 @@
+sudo apt-get install cmake libglut3-dev pkg-config build-essential libxmu-dev libxi-dev libusb-1.0-0-dev
+cd libfreenect
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+sudo ldconfig /usr/local/lib64/
+sudo adduser YOURNAME video
+sudo emacs /etc/udev/rules.d/66-kinect.rules
+
+Paste the following into that file:
+
+#Rules for Kinect ####################################################
+SYSFS{idVendor}=="045e", SYSFS{idProduct}=="02ae",
+MODE="0660",GROUP="video"
+SYSFS{idVendor}=="045e", SYSFS{idProduct}=="02ad",
+MODE="0660",GROUP="video"
+SYSFS{idVendor}=="045e", SYSFS{idProduct}=="02b0",
+MODE="0660",GROUP="video"
+### END ############################################################# 
