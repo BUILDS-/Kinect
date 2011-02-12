@@ -96,10 +96,19 @@ int main(int argc, char **argv)
 	return -1;
       }
       cvCvtColor(image, image, CV_RGB2BGR);
-      CvPoint points[1][5];
-	points[0]={cvPoint(100,100),cvPoint(200,100),cvPoint(150,150),cvPoint(150,300),cvPoint(100,250)};
-     	int npts[1]={5}
-	 cvFillPoly(image, points, npts, 5, cvScalar(100,100,100,100), 8);
+      CvPoint* points[1];
+      CvPoint ptt[5];
+      points[0] = &(ptt[0]);
+      points[0][0] = cvPoint(100,100);
+      points[0][1] = cvPoint(200,100);
+      points[0][2] = cvPoint(150,150);
+      points[0][3] = cvPoint(150,300);
+      points[0][4] = cvPoint(100,250);
+
+      int npts[1];
+      npts[0]=5;
+	cvPolyLine(image, points, npts, 1,1, cvScalar(100,100,100,230),1, 8,0);
+	cvFillPoly(image, points, npts,1, cvScalar(100,100,100,230), 8,0);
       IplImage *depth = freenect_sync_get_depth_cv(0);
       if (!depth) {
 	printf("Error: Kinect not connected?\n");
