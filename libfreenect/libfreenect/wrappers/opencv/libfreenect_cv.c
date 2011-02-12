@@ -24,3 +24,9 @@ IplImage *freenect_sync_get_rgb_cv(int index)
 	cvSetData(image, data, 640*3);
 	return image;
 }
+
+int set_tilt_cv(int angle, int index)
+{
+  int status = freenect_sync_set_tilt_degs(angle,index);
+  return status;
+}

@@ -55,19 +55,57 @@ IplImage *GlViewColor(IplImage *depth)
 
 int main(int argc, char **argv)
 {
-	while (cvWaitKey(10) < 0) {
-		IplImage *image = freenect_sync_get_rgb_cv(0);
-		if (!image) {
-		    printf("Error: Kinect not connected?\n");
-		    return -1;
-		}
-		cvCvtColor(image, image, CV_RGB2BGR);
-		IplImage *depth = freenect_sync_get_depth_cv(0);
-		if (!depth) {
-		    printf("Error: Kinect not connected?\n");
-		    return -1;
-		}
-		cvShowImage("RGB", image);
-		cvShowImage("Depth", GlViewColor(depth));
-	}
+  int angle = 0;
+  while (1) {
+    switch(cvWaitKey(10)){
+
+    case 113:
+      exit(0);
+    case 'w':
+      angle++;
+      if(angle > 30)
+	angle = 30;
+      set_tilt_cv(angle,0);
+      break;
+    case 'x':
+      angle--;
+      if(angle < -30)
+	angle = -30;
+      set_tilt_cv(angle,0);
+      break;
+    case 's':
+      angle = 0;
+      set_tilt_cv(angle,0);
+      break;
+    case 'e':
+      angle += 10;
+      if(angle > 30)
+	angle = 30;
+      set_tilt_cv(angle,0);
+      break;
+    case 'c':
+      angle -=10;
+      if(angle < -30)
+	angle = -30;
+      set_tilt_cv(angle,0);
+      break;
+    default:
+      ;IplImage *image = freenect_sync_get_rgb_cv(0);
+      if (!image) {
+	printf("Error: Kinect not connected?\n");
+	return -1;
+      }
+      cvCvtColor(image, image, CV_RGB2BGR);
+
+      IplImage *depth = freenect_sync_get_depth_cv(0);
+      if (!depth) {
+	printf("Error: Kinect not connected?\n");
+	return -1;
+      }
+      cvShowImage("RGB", image);
+
+      cvShowImage("Depth", GlViewColor(depth));
+      break;
+    }
+  }
 }
