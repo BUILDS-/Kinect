@@ -55,19 +55,21 @@ IplImage *GlViewColor(IplImage *depth)
 
 int main(int argc, char **argv)
 {
-	while (cvWaitKey(10) < 0) {
-		IplImage *image = freenect_sync_get_rgb_cv(0);
+	while (cvWaitKey(10) !=  113) {
+	  	IplImage *image = freenect_sync_get_rgb_cv(0);
 		if (!image) {
 		    printf("Error: Kinect not connected?\n");
 		    return -1;
-		}
-		cvCvtColor(image, image, CV_RGB2BGR);
+		    }
+		    cvCvtColor(image, image, CV_RGB2BGR);
+		
 		IplImage *depth = freenect_sync_get_depth_cv(0);
 		if (!depth) {
 		    printf("Error: Kinect not connected?\n");
 		    return -1;
 		}
 		cvShowImage("RGB", image);
+		
 		cvShowImage("Depth", GlViewColor(depth));
 	}
 }
